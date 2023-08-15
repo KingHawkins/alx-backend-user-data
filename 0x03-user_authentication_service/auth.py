@@ -20,7 +20,7 @@ class Auth:
         if user:
             raise ValueError(f"User {user.email} already exists")
         hashed_password = _hash_password(password)
-        new_user = User(hashed_password=hashed_password, email=email)
+        new_user = User(hashed_password=hashed_password, email=eml)
         self._db._session.add(new_user)
         self._db._session.commit()
         return new_user
