@@ -9,14 +9,14 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route("/", strict_slashes=False)
-def index():
+@app.route("/", methods=["GET"], strict_slashes=False)
+def index() -> str:
     """Routes"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def users():
+def users() -> str:
     """Registers user"""
     email = request.form.get("email")
     password = request.form.get("password")
@@ -29,13 +29,13 @@ def users():
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login():
+def login() -> str:
     """Login through sessions"""
     email = request.form.get("email")
     password = request.form.get("password")
 
     result = AUTH.valid_login(email, password)
-    if result is False:
+    if not result:
         abort(401)
     session = AUTH.create_session(email)
     response = make_response(jsonify({"email": f"{email}",
